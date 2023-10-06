@@ -1,0 +1,22 @@
+.producto-image{
+    width: 60px;
+}
+
+.producto-title{
+    font-size: 13px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.producto-price{
+    font-size: 15px;
+    margin: 0;
+    font-style: italic;
+}
+
+.producto-container{
+    border: 1px solid black;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+}

@@ -5,7 +5,7 @@ export const MyList = (props) => {
                                                         name: "Barrer",
                                                         person: "Juan",
                                                         year: 2,
-                                                        checked: true
+                                                        checked: false
                                                     },
                                                     {
                                                         name: "Saltar",
@@ -17,7 +17,7 @@ export const MyList = (props) => {
                                                         name: "Lavar",
                                                         person: "Carlos",
                                                         year: 4,
-                                                        checked: true
+                                                        checked: false
                                                     }
                                                 ]);
     const [tarea, setTarea] = useState("");
@@ -50,6 +50,27 @@ export const MyList = (props) => {
         setListaTareas(listaTareasTemp);
     } 
 
+    const modificarCheck = (indice) => {
+        // COPIAR EL OBJETO
+        var tareaObjetoTemporal = {...listaTareas[indice]};
+
+        // MODIFICAR EL OBJETO
+        if(tareaObjetoTemporal.checked == true){
+            tareaObjetoTemporal.checked = false;
+        } else {
+            tareaObjetoTemporal.checked = true;
+        }
+        //tareaObjetoTemporal.checked = (tareaObjetoTemporal.checked) ? false : true;
+        //tareaObjetoTemporal.checked = !tareaObjetoTemporal.checked;
+
+        // REEMPLAZAR EL OBJETO EN EL INDICE DE DONDE SALIO
+        var listaTareasTemp = [...listaTareas];
+        listaTareasTemp[indice] = tareaObjetoTemporal;
+
+        // ACTUALIZAR EL ESTADO
+        setListaTareas(listaTareasTemp);
+    }
+
     return (
         <div>
             <div>
@@ -67,10 +88,10 @@ export const MyList = (props) => {
                 listaTareas.map((item, index) => {
                     return <div>
                                 <label>{index}</label>
-                                <label>La tarea: {item.name}, lo realizará: {item.person} y tiene: {item.year} años</label>
+                                <label style={{textDecorationLine: (item.checked) ? "line-through" : "none"}}>La tarea: {item.name}, lo realizará: {item.person} y tiene: {item.year} años</label>
                                 <button onClick={() => {eliminar(index)}}>Eliminar</button>
                                 <button onClick={() => {modificarYears(index)}}>Poner 0 años</button>
-                                <input type="checkbox" checked={item.checked} />
+                                <input type="checkbox" checked={item.checked} onChange={() => {modificarCheck(index)}}/>
                             </div>
                 })
             }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 
 const MyLogin = (props) =>{
     const [email, setEmail] = useState("");
@@ -44,6 +45,8 @@ const MyLogin = (props) =>{
                 <br />
                 Mi Password es: {password}
             </div>
+
+            <Link to="/">Ir a la pagina principal</Link>
         </div>
     )
 }

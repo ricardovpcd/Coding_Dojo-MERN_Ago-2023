@@ -1,41 +1,65 @@
 import { useState } from "react";
+import "./queHaceres.css";
 
 export const QueHaceres = (props) => {
-
-                                      //   0           1          2     
-    const [lista, setLista] = useState(["Python", "Javascript", "PHP"]);
+    const [listaQueHaceres, setListaQueHaceres] = useState([]);
     const [input, setInput] = useState("");
 
-    const addItem = () =>{
-        /*var listaTemporal = [...lista];
-        listaTemporal.push(input);
-        setLista(listaTemporal);*/
-        setLista([...lista, input]);
-        setInput("");
+    const agregar = () =>{
+        // COPIAR EL ESTADO DEL ARRAY
+        var listaQueHaceresTemporal = [...listaQueHaceres];
+        // CREAR NUESTRO OBJETO A GUARDAR
+        var objetoTemporal = {
+            id: 4,
+            nombre: input,
+            checked: false
+        }
+        // INSERTAR NUESTRO OBJETO A LA LISTA
+        listaQueHaceresTemporal.push(objetoTemporal);
+
+        // ACTUALIZAR EL ESTADO
+        setListaQueHaceres(listaQueHaceresTemporal);
     }
 
-    const deleteItem = (indice) => {
-        /*var listaTemporal = lista.filter((item, i) => i != indice);
-        setLista(listaTemporal);*/
-        setLista(lista.filter((item, i) => i != indice))
+    const eliminar = (indice) => {
+        // FILTRAR MI LISTA DE ESTADO
+        var listaQueHaceresTemporal = listaQueHaceres.filter((item, i) => i != indice);
+
+        // ACTUALIZAR EL ESTADO CON LA NUEVA LISTA FILTRADA
+        setListaQueHaceres(listaQueHaceresTemporal);
+    }
+
+    const terminarTarea = (indice) => {
+        var queHacerTemporal = {...listaQueHaceres[indice]};
+        queHacerTemporal.checked = (queHacerTemporal.checked == true) ? false : true;
+
+        var listaQueHaceresTemporal = [...listaQueHaceres];
+        listaQueHaceresTemporal[indice] = queHacerTemporal;
+
+        setListaQueHaceres(listaQueHaceresTemporal);
     }
 
     return (
         <div>
-            <input type="text" value={input} onChange={(e) => {setInput(e.target.value)}}/>
-            <button onClick={addItem}>Add</button>
-            <br />
-            <br />
-            {
-                lista.map((item, index) => {
-                    return <div key={index}>
-                                <label>{index}</label>
-                                <label>{item}</label>
-                                <input type="checkbox"/>
-                                <button onClick={() => {deleteItem(index)}}>Delete</button>
-                            </div>
-                })
-            }
+            <div>
+                <input type="text" value={input} onChange={(e) => {setInput(e.target.value)}}/>
+                <button onClick={agregar}>Add</button>
+            </div>  
+
+            <div>
+                {
+                    listaQueHaceres.map((queHacer, index) => {
+                        return <div>
+                            
+                            <label className={(queHacer.checked == true) ? "label-checked" : "label-normal"}
+                                    onClick={()=>{terminarTarea(index)}}>{queHacer.nombre}</label>
+
+                            <input type="checkbox" checked={queHacer.checked} onChange={()=>{terminarTarea(index)}}/>
+                            <button onClick={()=>{eliminar(index)}}>Delete</button>
+                        </div>
+                    })
+                }
+            </div>
         </div>
     );
 };

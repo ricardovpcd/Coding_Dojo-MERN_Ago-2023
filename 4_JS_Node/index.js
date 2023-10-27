@@ -1,14 +1,17 @@
-//const express = require("express");
 import express from 'express';
-//const productRoute = require("./routes/productRoute");
 import * as productRoute from "./routes/productRoute.js";
-//const userRoute = require("./routes/userRoute");
+import mongoose from 'mongoose';
 
 const app = express();
+mongoose.connect("mongodb://127.0.0.1:27017/tienda")
+.then(() => {
+    console.log("Se conectó correctamente a la BD");
+})
+.catch((error) => {
+    console.log("Hubo un error " + error);
+});
 
 app.use(express.json());
-
-//app.use(userRoute);
 app.use(productRoute.router);
 
 app.listen(8000);

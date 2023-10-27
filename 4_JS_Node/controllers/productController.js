@@ -1,33 +1,14 @@
 import { faker } from "@faker-js/faker"
+import Producto from "../models/productoModel.js";
 
-const getProducts = (req, res) => {
-    var productList = [
-        {
-            nombre: faker.commerce.productName(),
-            precio: faker.commerce.price(),
-            descripcion: faker.commerce.productDescription(),
-            material: faker.commerce.productMaterial()
-        },
-        {
-            nombre: faker.commerce.productName(),
-            precio: faker.commerce.price(),
-            descripcion: faker.commerce.productDescription(),
-            material: faker.commerce.productMaterial()
-        },
-        {
-            nombre: faker.commerce.productName(),
-            precio: faker.commerce.price(),
-            descripcion: faker.commerce.productDescription(),
-            material: faker.commerce.productMaterial()
-        }
-    ]
-
-    res.json(productList);
+const getProducts = async (req, res) => {
+    var listaProductos = await Producto.find();
+    res.json(listaProductos);
 }
 
-const createProduct = (req, res) => {
-    console.log(req.body);
-    res.status(201).json();
+const createProduct = async (req, res) => {
+    var newProducto = await Producto.create(req.body);
+    res.status(201).json(newProducto);
 }
 
 const updateProduct = (req, res) => {
@@ -36,23 +17,16 @@ const updateProduct = (req, res) => {
     res.status(200).json();
 }
 
-const deleteProduct = (req, res) => {
-    console.log(req.params.id);
+const deleteProduct = async (req, res) => {
+    var idProduct = req.params.idProduct;
+    await Producto.findByIdAndDelete(idProduct);
     res.status(200).json();
 }
 
-const getOneProduct = (req, res) => {
-    console.log(req.params.idProduct);
-
-    var productObj = {
-        nombre: faker.commerce.productName(),
-        precio: faker.commerce.price(),
-        descripcion: faker.commerce.productDescription(),
-        material: faker.commerce.productMaterial(),
-    }
-
-    res.status(200).json(productObj);
+const getOneProduct = async (req, res) => {
+    var idProduct = req.params.idProduct;
+    var producto = await Producto.findById(idProduct);
+    res.status(200).json(producto);
 }
 
-//module.exports = {getProducts, createProduct, updateProduct, deleteProduct};
 export {getProducts, createProduct, updateProduct, deleteProduct, getOneProduct};

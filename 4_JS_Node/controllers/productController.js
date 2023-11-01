@@ -11,9 +11,11 @@ const createProduct = async (req, res) => {
     res.status(201).json(newProducto);
 }
 
-const updateProduct = (req, res) => {
-    console.log(req.body);
-    console.log(req.params.idProduct);
+const updateProduct = async (req, res) => {
+    var idProduct = req.params.idProduct;
+    var dataUpdate = req.body;
+
+    await Producto.findByIdAndUpdate(idProduct, dataUpdate);
     res.status(200).json();
 }
 

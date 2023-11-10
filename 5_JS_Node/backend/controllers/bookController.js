@@ -1,9 +1,15 @@
 import Book from "../models/bookModel.js";
 
 const createBook = async (req, res) => {
-    var bookData = req.body;
-    var response = await Book.create(bookData);
-    res.status(200).json(response);
+    try{
+        var bookData = req.body;
+        var response = await Book.create(bookData);
+        res.status(200).json(response);
+    }catch(e){
+        res.status(400).json({
+            "message": e.message
+        });
+    }
 }
 
 const getBooks = async (req, res) => {

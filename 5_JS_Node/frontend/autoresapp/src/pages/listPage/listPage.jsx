@@ -36,6 +36,10 @@ export const ListPage = (props) => {
         navigate("/books/" + idAuth);
     }
 
+    const goToCreateBook = (idAuth) => {
+        navigate("/newBook/" + idAuth);
+    }
+
     return (
         <div>
             <h1>Favorite Authors</h1>
@@ -54,7 +58,7 @@ export const ListPage = (props) => {
                                     <td>
                                         <button onClick={() => goToEdit(auth._id)}>Edit</button>
                                         <button onClick={() => deleteAuthor(auth._id, index)}>Delete</button>
-                                        <button>Create Book</button>
+                                        <button onClick={() => goToCreateBook(auth._id)}>Create Book</button>
                                         <button onClick={() => goToViewBooks(auth._id)}>View Books</button>
                                     </td>
                                 </tr>

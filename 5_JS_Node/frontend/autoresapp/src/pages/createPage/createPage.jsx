@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
@@ -8,6 +8,13 @@ export const CreatePage = (props) => {
     const [isPublished, setIsPublished] = useState(false);
     const [books, setBooks] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() =>{
+        var isLogged = localStorage.getItem("isLogged");
+        if(isLogged == null){
+            navigate("/credentials");
+        }
+    }, []);
 
     const cancelForm = () => {
         navigate("/");

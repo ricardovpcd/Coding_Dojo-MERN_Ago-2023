@@ -8,18 +8,32 @@ export const ListPage = (props) => {
     const navigate = useNavigate();
 
     useEffect(() =>{
+        var isLogged = localStorage.getItem("isLogged");
+        if(isLogged == null){
+            navigate("/credentials");
+        }
+
         callListApi();
     }, []);
 
     const callListApi = async () => {
-        var result = await axios.get("http://localhost:8080/api/author/get");
+        var jwt = localStorage.getItem("jwt");
+        var result = await axios.get("http://localhost:8080/api/author/get", {
+            headers: {
+                "Authorization": jwt
+            }
+        });
         setListAuthors(result.data);
     }
 
     const deleteAuthor = async (idAuth, index) => {
-        var result = await axios.delete("http://localhost:8080/api/author/delete/" + idAuth);
+        var jwt = localStorage.getItem("jwt");
+        var result = await axios.delete("http://localhost:8080/api/author/delete/" + idAuth, {
+            headers: {
+                "Authorization": jwt
+            }
+        });
         if(result.status == 200){
-            //var listAuthorsTemp = listAuthors.filter((auth) => auth._id != idAuth);
             var listAuthorsTemp = listAuthors.filter((auth, i) => i != index);
             setListAuthors(listAuthorsTemp);
             alert("Se ha eliminado correctamente");
@@ -40,10 +54,16 @@ export const ListPage = (props) => {
         navigate("/newBook/" + idAuth);
     }
 
+    const logout = () =>{
+        localStorage.removeItem("isLogged");
+        navigate("/credentials");
+    }
+
     return (
         <div>
             <h1>Favorite Authors</h1>
             <Link to="/new">Add an author</Link>
+            <button onClick={logout}>Logout</button>
             <p>We have quotes by: </p>
             <table>
                 <tr>

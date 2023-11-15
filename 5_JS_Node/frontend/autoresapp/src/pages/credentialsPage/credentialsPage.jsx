@@ -54,13 +54,14 @@ export const CredentialsPage = (props) => {
             "password": passwordLogin
         };
 
-        var result = await axios.post("http://localhost:8080/api/user/login", obj);
-        if(result.data == false){
-            alert("El email o contraseña es inconrrecto");
-            return;
+        try{
+            var result = await axios.post("http://localhost:8080/api/user/login", obj);
+            localStorage.setItem("jwt", result.data);
+            localStorage.setItem("isLogged", true);
+            navigate("/");
+        }catch(e){
+            alert("Usuario o contraseña invalidos");
         }
-
-        navigate("/");
     }
 
     return (

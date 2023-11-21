@@ -18,11 +18,13 @@ export const ListPage = (props) => {
 
     const callListApi = async () => {
         var jwt = localStorage.getItem("jwt");
-        var result = await axios.get("http://localhost:8080/api/author/get", {
+        var config = {
             headers: {
                 "Authorization": jwt
-            }
-        });
+            },
+        };
+
+        var result = await axios.get("http://localhost:8080/api/author/get", config);
         setListAuthors(result.data);
     }
 

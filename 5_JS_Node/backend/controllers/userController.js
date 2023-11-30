@@ -1,6 +1,8 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import { json } from "express";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 const registerUser = async (req, res) => {
     try{
@@ -37,4 +39,37 @@ const loginUser = async (req, res) => {
     res.status(200).json(encodedData);
 }
 
-export { registerUser, loginUser };
+const sendEmail = async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+          user: "yyyyyyyyy@gmail.com",
+          pass: "xxxxxxxxxxxxxxx"
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+    var mailOptions = {
+        from: "yyyyyyyyy@gmail.com",
+        to: "yyyyyyyyy@gmail.com",
+        subject: "Hola CodingDojo!",
+        text: "Este es un correo generado desde backend!",
+        html: "<b>hey<b></b>"
+    }
+
+    var result = await transporter.sendMail(mailOptions);
+    res.json("OK");
+}
+
+const uploadFile = (req, res) => {
+    console.log(req.file.filename);
+    console.log(req.body);
+
+    res.json("uploadFile");
+}
+
+export { registerUser, loginUser, sendEmail, uploadFile };

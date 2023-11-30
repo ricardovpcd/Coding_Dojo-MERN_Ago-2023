@@ -9,8 +9,10 @@ import "./config/mongodb.js";
 import AdminJS from "adminjs";
 import AdminJSExpress from "@adminjs/express";
 import AdminJSMongoose from "@adminjs/mongoose";
+
 import Author from "./models/authorModel.js";
 import Book from "./models/bookModel.js";
+import Movie from "./models/movieModel.js";
 
 import path from "path";
 
@@ -26,7 +28,7 @@ app.use(movieRoutes.router);
 
 AdminJS.registerAdapter(AdminJSMongoose)
 const adminJs = new AdminJS({
-    resources: [Author, Book],
+    resources: [Author, Book, Movie],
     rootPath: '/admin',
 });
 
@@ -34,6 +36,6 @@ const router = AdminJSExpress.buildRouter(adminJs);
 app.use(adminJs.options.rootPath, router);
 
 const __dirname = path.resolve();
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'public')));
 
 app.listen(8080);
